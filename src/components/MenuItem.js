@@ -6,7 +6,15 @@ import React from "react";
 // Hint: You can use the image name to get the image from the images folder.
 const MenuItem = ({ title, description, imageName, price }) => {
   return (
-    <div className="card" style={{ display: "flex", alignItems: "center", padding: "10px", width: "90%" }}>
+    <div
+      className="card"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        padding: "10px",
+        width: "90%",
+      }}
+    >
       <img
         src={"images/" + imageName}
         alt={title}

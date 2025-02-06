@@ -81,8 +81,6 @@ const menuItems = [
 function App() {
   return (
     <div>
-      <h1 class="title">Jim's Japanese</h1>
-      <h2 class="subtitle">UT's oldest Japanese Restaurant</h2>
       <div className="menu">
         {/* Display menu items dynamicaly here by iterating over the provided menuItems */}
         {menuItems.map((menuItem) => (
