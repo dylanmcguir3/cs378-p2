@@ -1,5 +1,7 @@
 import "./App.css";
 import MenuItem from "./components/MenuItem";
+import React from "react";
+import OrderBar from "./components/OrderBar";
 
 // import 'bootstrap/dist/css/bootstrap.min.css'; // This imports bootstrap css styles. You can use bootstrap or your own classes by using the className attribute in your elements.
 
@@ -79,10 +81,45 @@ const menuItems = [
 ];
 
 function App() {
+  const [orderCounts, setOrderCounts] = React.useState(
+    menuItems.map((menuItem) => 0)
+  );
+
+  const decrementOrderCount = (index) => {
+    if (orderCounts[index] > 0) {
+      const newOrderCounts = [...orderCounts];
+      newOrderCounts[index] -= 1;
+      setOrderCounts(newOrderCounts);
+    }
+  };
+
+  const incrementOrderCount = (index) => {
+    const newOrderCounts = [...orderCounts];
+    newOrderCounts[index] += 1;
+    setOrderCounts(newOrderCounts);
+  };
+
+  const getOrderMessage = () => {
+    const orderItems = menuItems.reduce((orderItems, menuItem, index) => {
+      if (orderCounts[index] > 0) {
+        orderItems.push(`${orderCounts[index]} ${menuItem.title}`);
+      }
+      return orderItems;
+    }, []);
+
+    if (orderItems.length === 0) {
+      return "No items in cart!";
+    }
+
+    return `You have ordered: ${orderItems.join(", ")}.`;
+  };
+
   return (
     <div>
       <div className="menu">
         {/* Display menu items dynamicaly here by iterating over the provided menuItems */}
+        <h1 class="title">Jim's Japanese</h1>
+        <h2 class="subtitle">UT's oldest Japanese Restaurant</h2>
         {menuItems.map((menuItem) => (
           <MenuItem
             key={menuItem.id}
@@ -90,9 +127,18 @@ function App() {
             description={menuItem.description}
             imageName={menuItem.imageName}
             price={menuItem.price}
+            orderCount={orderCounts[menuItem.id - 1]}
+            incrementOrderCount={() => incrementOrderCount(menuItem.id - 1)}
+            decrementOrderCount={() => decrementOrderCount(menuItem.id - 1)}
           />
         ))}
       </div>
+      <OrderBar
+        orderCounts={orderCounts}
+        getOrderMessage={getOrderMessage}
+        menuItems={menuItems}
+        setOrderCounts={setOrderCounts}
+      />
     </div>
   );
 }
