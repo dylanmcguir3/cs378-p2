@@ -10,11 +10,13 @@ export default function OrderBar({
     <div className="order-bar">
       <h4>
         Total: $
-        {menuItems.reduce(
-          (total, menuItem, index) =>
-            total + menuItem.price * orderCounts[index],
-          0
-        )}
+        {menuItems
+          .reduce(
+            (total, menuItem, index) =>
+              total + menuItem.price * orderCounts[index],
+            0
+          )
+          .toFixed(2)}
       </h4>
       <div className="button-bar">
         <button
